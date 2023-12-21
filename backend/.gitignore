@@ -1,1 +1,2 @@
-go.mod
+node_modules
+.env

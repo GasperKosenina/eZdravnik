@@ -1,1 +1,2 @@
 #FRONTEND `instalacija`
+npm install

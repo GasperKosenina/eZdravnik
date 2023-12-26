@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon --exec ts-node index.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,8 @@
     "firebase-admin": "^12.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }

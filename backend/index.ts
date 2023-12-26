@@ -1,5 +1,7 @@
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
+import path from 'path';
+import cors from 'cors';
 import zahtevekRouter from './routes/zahtevek';
 import odgovorRouter from './routes/odgovor';
 import uporabnikRouter from './routes/uporabnik';
@@ -17,7 +19,11 @@ app.use('/odgovori', odgovorRouter)
 app.use('/uporabniki', uporabnikRouter)
 
 
+
+
 app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

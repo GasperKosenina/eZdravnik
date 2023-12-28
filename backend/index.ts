@@ -11,6 +11,10 @@ import syncUsers from './shranjevanjeUporabnika/shrajevanje';
 const app = express();
 const port = process.env.PORT;
 
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
+
 //syncUsers();
 
 
@@ -19,11 +23,6 @@ app.use('/odgovori', odgovorRouter)
 app.use('/uporabniki', uporabnikRouter)
 
 
-
-
-app.use(express.json());
-app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -5,6 +5,7 @@ import cors from 'cors';
 import zahtevekRouter from './routes/zahtevek';
 import odgovorRouter from './routes/odgovor';
 import uporabnikRouter from './routes/uporabnik';
+import chatGPTRouter from './routes/chatGPT';
 import syncUsers from './shranjevanjeUporabnika/shrajevanje';
 
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/zahtevki', zahtevekRouter);
 app.use('/odgovori', odgovorRouter)
 app.use('/uporabniki', uporabnikRouter)
+app.use('/chatGPT', chatGPTRouter)
 
 
 

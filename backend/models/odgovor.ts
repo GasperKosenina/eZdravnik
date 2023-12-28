@@ -1,5 +1,5 @@
 interface Odgovor {
-    id: string;
+    id: string | null;
     odgovor: string;
     zahtevekID: string;
     uporabnikID: string;

@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import request from 'request';
 import Zahtevek from '../models/zahtevek';
+import Odgovor from '../models/odgovor';
+import admin from '../config/firebaseConfig';
 
+const firestore = admin.firestore();
 
 const pretvoriZahtevekVBesedilo = (zahtevek: Zahtevek): string => {
 
@@ -61,9 +64,7 @@ return new Promise<string>((resolve, reject) => {
     makeRequest();
 });
 
-      
 }
-
 
 export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -74,17 +75,35 @@ export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Res
             return;
         }
 
-        if (!zahtevek.spol || !zahtevek.datum_rojstva || !zahtevek.opis_simptomov) {
+        console.log(zahtevek);
+
+        if (!zahtevek.datum_rojstva || !zahtevek.opis_simptomov) {
             res.status(400).json({ error: "Zahtevek mora vsebovati spol, datum rojstva in opis simptomov" });
             return;
         }
 
         const pretvorjenoBesedilo = pretvoriZahtevekVBesedilo(zahtevek);
 
-        const odgovor = await posiljanjeBesedilaChatGPT(pretvorjenoBesedilo);
+        const besediloOdgovora: string = await posiljanjeBesedilaChatGPT(pretvorjenoBesedilo);
+
+        if (!besediloOdgovora) {
+            res.status(500).json({ error: "Prislo je do napake" });
+            return;
+        }
+
+        const zahtevekRef = firestore.collection('zahtevki').doc();
+        const zahtevekDoc = await zahtevekRef.set(zahtevek);
+
+        const odgovor: Odgovor = {
+            odgovor: besediloOdgovora,
+            zahtevekID: zahtevekRef.id,
+            uporabnikID: "oFVBroH4zRZeYvrFk328nvclJhg2" //Luka Prepadnik
+        };
+
+        const odgovorRef = firestore.collection('odgovori').doc();
+        const odgovorDoc = await odgovorRef.set(odgovor);
 
         res.status(200).json({ odgovor: odgovor });
-        
     }
     catch (error) {
         res.status(500).json({ error: "Prislo je do napake" });

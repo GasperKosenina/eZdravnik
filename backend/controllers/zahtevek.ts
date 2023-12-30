@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import admin from '../config/firebaseConfig';
 import Zahtevek from '../models/zahtevek';
 
@@ -70,6 +70,7 @@ export const pridobiZahtevekId = async (req: Request, res: Response): Promise<vo
         res.status(500).json({ error: error});
     }
 };
+
 
 
 

@@ -3,6 +3,6 @@ import { dodajZahtevekInOdgovorPodUporabnika } from '../controllers/chatGPT';
 
 const chatGPTRouter = express.Router();
 
-chatGPTRouter.post('/', dodajZahtevekInOdgovorPodUporabnika);
+chatGPTRouter.post('/:id', dodajZahtevekInOdgovorPodUporabnika);
 
 export default chatGPTRouter;

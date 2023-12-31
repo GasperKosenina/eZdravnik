@@ -69,13 +69,17 @@ return new Promise<string>((resolve, reject) => {
 export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Response): Promise<void> => {
     try {
         const zahtevek: Zahtevek = req.body;
+        const uporabnikID: string = req.params.id;
+
+        if (!uporabnikID) {
+            res.status(400).json({ error: "Uporabnik ni bil poslan" });
+            return;
+        }
 
         if (!zahtevek) {
             res.status(400).json({ error: "Zahtevek ni bil poslan" });
             return;
         }
-
-        console.log(zahtevek);
 
         if (!zahtevek.datum_rojstva || !zahtevek.opis_simptomov) {
             res.status(400).json({ error: "Zahtevek mora vsebovati spol, datum rojstva in opis simptomov" });
@@ -97,13 +101,13 @@ export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Res
         const odgovor: Odgovor = {
             odgovor: besediloOdgovora,
             zahtevekID: zahtevekRef.id,
-            uporabnikID: "oFVBroH4zRZeYvrFk328nvclJhg2" //Luka Prepadnik
+            uporabnikID: uporabnikID
         };
 
         const odgovorRef = firestore.collection('odgovori').doc();
         const odgovorDoc = await odgovorRef.set(odgovor);
 
-        res.status(200).json({ odgovor: odgovor });
+        res.status(200).json({ odgovor: odgovor, uporabnik: uporabnikID});
     }
     catch (error) {
         res.status(500).json({ error: "Prislo je do napake" });

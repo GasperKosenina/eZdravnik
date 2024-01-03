@@ -1,11 +1,169 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { RadioButton } from 'react-native-paper';
 
 export default function Zahtevek() {
+    const [datumRojstva, setDatumRojstva] = React.useState(new Date());
+    const [showDatePicker, setShowDatePicker] = React.useState(false);
+    const [spol, setSpol] = React.useState('Moški');
+    const [teza, setTeza] = React.useState('');
+    const [velikost, setVelikost] = React.useState('');
+    const [alergije, setAlergije] = React.useState('');
+    const [bolezniDruzine, setBolezniDruzine] = React.useState('');
+    const [zdravila, setZdravila] = React.useState('');
+    const [simptomi, setSimptomi] = React.useState('');
+    const [dodatniKontekst, setDodatniKontekst] = React.useState('');
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || datumRojstva;
+        setShowDatePicker(Platform.OS === 'ios'); // Keep the date picker open on iOS
+        setDatumRojstva(currentDate);
+    };
+
+    const handleSubmit = () => {
+        console.log('Zahtevek poslan');
+        // Tukaj bi morala biti logika za pošiljanje podatkov na vaš backend.
+    };
+
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Zahtevek</Text>
-        </View>
+        <ScrollView style={styles.container}>
+            <Text style={styles.heading}>Osnovni podatki pacienta:</Text>
+            <TouchableOpacity
+                style={styles.datePickerInput}
+                onPress={() => setShowDatePicker(true)}>
+                <Text>{datumRojstva.toLocaleDateString()}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+                <DateTimePicker
+                    value={datumRojstva}
+                    mode="date"
+                    display="default"
+                    onChange={onChange}
+                />
+            )}
+
+            <View style={styles.radioContainer}>
+                <RadioButton.Group
+                    onValueChange={newValue => setSpol(newValue)}
+                    value={spol}
+                >
+                    <View style={styles.radioItemLeft}>
+                        <RadioButton value="Moški" />
+                        <Text>Moški</Text>
+                    </View>
+                    <View style={styles.radioItemRight}>
+                        <RadioButton value="Ženska" />
+                        <Text>Ženska</Text>
+                    </View>
+                </RadioButton.Group>
+            </View>
+
+            <TextInput
+                style={styles.input}
+                onChangeText={setSimptomi}
+                value={simptomi}
+                multiline
+                placeholder="Opis simptomov"
+            />
+
+           
+            <TextInput
+                style={styles.input}
+                onChangeText={setAlergije}
+                value={alergije}
+                placeholder="Alergije"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={setBolezniDruzine}
+                value={bolezniDruzine}
+                placeholder="Bolezni v družini"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={setZdravila}
+                value={zdravila}
+                placeholder="Zdravila"
+            />
+           
+            <TextInput
+                style={styles.input}
+                onChangeText={setDodatniKontekst}
+                value={dodatniKontekst}
+                multiline
+                placeholder="Dodatni kontekst" 
+            />
+            <TouchableOpacity
+                style={styles.button}
+                onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Pošlji zahtevek</Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        paddingBottom: 30,
+    },
+    heading: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 20,
+        alignSelf: 'center',
+    },
+    datePickerInput: {
+        height: 40,
+        marginVertical: 10,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: '80%',
+        borderRadius: 5,
+    },
+    input: {
+        height: 40,
+        marginVertical: 10,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        alignSelf: 'center',
+        width: '80%',
+        borderRadius: 5,
+    },
+    radioContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Spremenite na 'space-between'
+        alignItems: 'center',
+        marginVertical: 10,
+        width: '80%',
+        alignSelf: 'center',
+    },
+    radioItemLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    radioItemRight: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#1E90FF',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        alignSelf: 'center',
+        width: '50%',
+        marginTop: 20,
+        marginBottom: 30,
+    },
+    buttonText: {
+        color: '#ffffff',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+});

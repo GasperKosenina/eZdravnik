@@ -32,8 +32,8 @@ export default function Domov({ navigation }) {
       {showSecondSentence && (
         <Typewriter
           typing={1}
-          minDelay={65}
-          maxDelay={95}
+          minDelay={75}
+          maxDelay={105}
           style={styles.typewriterText}
         >
           Tu smo, da vam pomagamo hitro in zanesljivo.

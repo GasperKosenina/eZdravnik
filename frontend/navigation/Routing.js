@@ -49,42 +49,47 @@ function Routing() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={domovZaslon}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
-
-            if (rn === domovZaslon) {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (rn === zahtevekZaslon) {
-              iconName = focused ? 'pencil' : 'pencil-outline';
-            }
-            else if (rn === zgodovinaZaslon) {
-              iconName = focused ? 'list' : 'list-outline';
-            } else if (rn === zemljevidZaslon) {
-              iconName = focused ? 'map' : 'map-outline';
-            } else if (rn === profilZaslon) {
-              iconName = focused ? 'person' : 'person-outline';
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: '#18ada5',
-          tabBarInactiveTintColor: 'grey',
-          tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarStyle: { height: 70 }
-        })}
-      >
-        <Tab.Screen name={domovZaslon} component={Domov} />
-        <Tab.Screen name={zahtevekZaslon} component={Zahtevek} />
-        <Tab.Screen name={zgodovinaZaslon}>{() => <Zgodovina odgovori={odgovori} />}</Tab.Screen>
-        <Tab.Screen name={zemljevidZaslon} component={Zemljevid} />
-        <Tab.Screen name={profilZaslon} component={Profil} />
-      </Tab.Navigator>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Tab.Navigator
+          initialRouteName="eZdravnik"
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              if (route.name === "eZdravnik") {
+                iconName = focused ? 'home' : 'home-outline';
+              } else if (route.name === "Zahtevek") {
+                iconName = focused ? 'pencil' : 'pencil-outline';
+              } else if (route.name === "Zgodovina") {
+                iconName = focused ? 'list' : 'list-outline';
+              } else if (route.name === "Zemljevid") {
+                iconName = focused ? 'map' : 'map-outline';
+              } else if (route.name === "Profil") {
+                iconName = focused ? 'person' : 'person-outline';
+              }
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: '#18ada5',
+            tabBarInactiveTintColor: 'grey',
+            tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
+            tabBarStyle: {}
+          })}
+        >
+          <Tab.Screen
+            name="eZdravnik"
+            component={Domov}
+            options={{ headerTitle: () => <CustomScreenTitle /> }}
+          />
+          <Tab.Screen name="Zahtevek" component={Zahtevek} />
+          <Tab.Screen name="Zgodovina">{() => <Zgodovina odgovori={odgovori} />}</Tab.Screen>
+          <Tab.Screen name="Zemljevid" component={Zemljevid} />
+          <Tab.Screen name="Profil" component={Profil} />
+        </Tab.Navigator>
+      </SafeAreaView>
     </NavigationContainer>
   );
 }
 
 
 export default Routing;
+
+

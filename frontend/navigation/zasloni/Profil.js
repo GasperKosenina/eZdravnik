@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Dodajte želeno ikono
 
 export default function Profil({ navigation }) {
@@ -15,7 +15,8 @@ export default function Profil({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profilePicture} />
+      <Image source={require('../img/giraffe_pfp.png')} style={styles.profilePicture} />
+
 
       <Text style={styles.profileText}>@fakeime123</Text>
 
@@ -26,12 +27,12 @@ export default function Profil({ navigation }) {
         <Text style={styles.buttonText}>Tvoja Zgodovina</Text>
       </TouchableOpacity>
 
-    
+
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
         <Icon name="exit-outline" size={20} color="#ffffff" />
       </TouchableOpacity>
 
-   
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -60,8 +61,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start', 
-    paddingTop: 100, 
+    justifyContent: 'flex-start',
+    paddingTop: 100,
     backgroundColor: '#FFFFFF',
   },
   profilePicture: {
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     position: 'absolute',
-    top: 12, 
+    top: 12,
     right: 10,
     backgroundColor: '#ff0000',
     paddingHorizontal: 15,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
 
- // MODALNO OKNO
+  // MODALNO OKNO
   modalContainer: {
     flex: 1,
     justifyContent: 'center',

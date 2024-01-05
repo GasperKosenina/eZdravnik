@@ -2,6 +2,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useState, useEffect } from 'react';
+import api from '../services/api';
 
 
 import Domov from './zasloni/Domov';
@@ -19,7 +21,31 @@ const zgodovinaZaslon = "Zgodovina";
 
 const Tab = createBottomTabNavigator();
 
-function MainContainer() {
+
+
+
+
+function Routing() {
+    const [odgovori, setOdgovori] = useState([]);
+
+
+    useEffect(() => {
+        pridobiOdgovore();
+    }, []);
+
+    const pridobiOdgovore = async () => {
+        try {
+            const response = await api.get('/odgovori');
+            //console.log(response.data)
+            setOdgovori(response.data.odgovori);
+        } catch (error) {
+            console.error('Napaka pri pridobivanju podatkov:', error);
+        }
+    };
+
+
+
+
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -51,7 +77,7 @@ function MainContainer() {
             >
                 <Tab.Screen name={domovZaslon} component={Domov} />
                 <Tab.Screen name={zahtevekZaslon} component={Zahtevek} />
-                <Tab.Screen name={zgodovinaZaslon} component={Zgodovina} />
+                <Tab.Screen name={zgodovinaZaslon}>{() => <Zgodovina odgovori={odgovori} />}</Tab.Screen>
                 <Tab.Screen name={zemljevidZaslon} component={Zemljevid} />
                 <Tab.Screen name={profilZaslon} component={Profil} />
             </Tab.Navigator>
@@ -60,4 +86,4 @@ function MainContainer() {
 }
 
 
-export default MainContainer;
+export default Routing;

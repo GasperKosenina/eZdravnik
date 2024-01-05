@@ -2,18 +2,19 @@ import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RadioButton } from 'react-native-paper';
+import api from '../../services/api';
 
 export default function Zahtevek() {
     const [datumRojstva, setDatumRojstva] = React.useState(new Date());
     const [showDatePicker, setShowDatePicker] = React.useState(false);
     const [spol, setSpol] = React.useState('Moški');
-    const [teza, setTeza] = React.useState('');
-    const [velikost, setVelikost] = React.useState('');
     const [alergije, setAlergije] = React.useState('');
     const [bolezniDruzine, setBolezniDruzine] = React.useState('');
     const [zdravila, setZdravila] = React.useState('');
     const [simptomi, setSimptomi] = React.useState('');
+    const [zivljenjskiSlog, setZivljenjskiSlog] = React.useState('');
     const [dodatniKontekst, setDodatniKontekst] = React.useState('');
+
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || datumRojstva;
@@ -21,9 +22,24 @@ export default function Zahtevek() {
         setDatumRojstva(currentDate);
     };
 
-    const handleSubmit = () => {
-        console.log('Zahtevek poslan');
-        // Tukaj bi morala biti logika za pošiljanje podatkov na vaš backend.
+    const handleSubmit = async () => {
+        const data = {
+            datum_rojstva: datumRojstva.toLocaleDateString(),
+            spol: spol === 'Moški' ? true : false,
+            opis_simptomov: simptomi,
+            alergije: alergije,
+            bolezni_v_druzini: bolezniDruzine,
+            zdravila: zdravila,
+            zivljenjski_slog: zivljenjskiSlog,
+            dodatni_kontekst: dodatniKontekst,
+        };
+
+        try {
+            const response = await api.post('/chatGPT/BXbIWZVGKheN11QV5AwD0MF7f1z1', data);
+            console.log(response.data.odgovor.odgovor)
+        } catch (error) {
+            console.error('Napaka:', error);
+        }
     };
 
     return (
@@ -67,7 +83,7 @@ export default function Zahtevek() {
                 placeholder="Opis simptomov"
             />
 
-           
+
             <TextInput
                 style={styles.input}
                 onChangeText={setAlergije}
@@ -86,13 +102,19 @@ export default function Zahtevek() {
                 value={zdravila}
                 placeholder="Zdravila"
             />
-           
+            <TextInput
+                style={styles.input}
+                onChangeText={setZivljenjskiSlog}
+                value={zivljenjskiSlog}
+                multiline
+                placeholder="Življenjski slog"
+            />
             <TextInput
                 style={styles.input}
                 onChangeText={setDodatniKontekst}
                 value={dodatniKontekst}
                 multiline
-                placeholder="Dodatni kontekst" 
+                placeholder="Dodatni kontekst"
             />
             <TouchableOpacity
                 style={styles.button}

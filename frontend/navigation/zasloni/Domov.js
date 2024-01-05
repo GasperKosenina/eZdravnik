@@ -8,7 +8,7 @@ export default function Domov({ navigation }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSecondSentence(true);
-    }, 4300); // MILISEKUNDE ZAMIKA
+    }, 3300); // MILISEKUNDE ZAMIKA
 
     return () => clearTimeout(timer); // OČISTI TIMER
   }, []);
@@ -23,8 +23,8 @@ export default function Domov({ navigation }) {
 
       <Typewriter
         typing={1}
-        minDelay={30}
-        maxDelay={60}
+        minDelay={20}
+        maxDelay={30}
         style={styles.typewriterText}
       >
         Pozdravljeni v eZdravniku, vašem digitalnem svetovalcu za zdravje.
@@ -32,11 +32,11 @@ export default function Domov({ navigation }) {
       {showSecondSentence && (
         <Typewriter
           typing={1}
-          minDelay={75}
-          maxDelay={105}
+          minDelay={20}
+          maxDelay={30}
           style={styles.typewriterText}
         >
-          Tu smo, da vam pomagamo hitro in zanesljivo.
+          Tu sem, da vam pomagam hitro in zanesljivo.
         </Typewriter>
       )}
       <Pressable
@@ -58,19 +58,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF', // BELO OZADJE
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: 350, 
+    height: 350, 
     resizeMode: 'contain',
-    marginBottom: 10,
+    marginBottom: -40, 
   },
   typewriterText: {
     fontSize: 18,
     textAlign: 'center',
-    paddingHorizontal: 10,
-    marginBottom: 20,
+    paddingHorizontal: 10, 
+    marginBottom: 15, 
   },
   button: {
-    backgroundColor: '#18ada5', // MODRA BARVA GUMBA
+    backgroundColor: '#18ada5', // TURKIZNA BARVA GUMBA
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

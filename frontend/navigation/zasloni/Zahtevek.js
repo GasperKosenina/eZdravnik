@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform, Modal, Alert, ActivityIndicator, Image } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RadioButton } from 'react-native-paper';
+import Typewriter from 'react-native-typewriter';
+import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
 export default function Zahtevek() {
@@ -15,6 +17,12 @@ export default function Zahtevek() {
   const [zivljenjskiSlog, setZivljenjskiSlog] = React.useState('');
   const [dodatniKontekst, setDodatniKontekst] = React.useState('');
 
+  const [odpriModal, setOdpriModal] = useState(false);
+  const [vsebinaModal, setVsebinaModal] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [odgovorPrejet, setOdgovorPrejet] = useState(false);
+
+
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || datumRojstva;
@@ -22,7 +30,25 @@ export default function Zahtevek() {
     setDatumRojstva(currentDate);
   };
 
+  const resetInputs = () => {
+    setAlergije('');
+    setBolezniDruzine('');
+    setZdravila('');
+    setSimptomi('');
+    setZivljenjskiSlog('');
+    setDodatniKontekst('');
+  };
+
   const handleSubmit = async () => {
+
+
+    if (simptomi.trim().length === 0) {
+      Alert.alert('Nujno vpišite še opis simptomov!');
+      return;
+    }
+
+
+
     const data = {
       datum_rojstva: datumRojstva.toLocaleDateString(),
       spol: spol === 'Moški' ? true : false,
@@ -35,10 +61,21 @@ export default function Zahtevek() {
     };
 
     try {
+      setOdgovorPrejet(false);
+      setLoading(true);
+      setOdpriModal(true);
+
       const response = await api.post('/chatGPT/BXbIWZVGKheN11QV5AwD0MF7f1z1', data);
-      console.log(response.data.odgovor.odgovor)
+      console.log(response.data.odgovor.odgovor);
+      const odgovorIzpis = response.data.odgovor.odgovor;
+
+      setVsebinaModal(odgovorIzpis);
+      setOdgovorPrejet(true);
     } catch (error) {
       console.error('Napaka:', error);
+    } finally {
+      setLoading(false);
+      resetInputs();
     }
   };
 
@@ -132,6 +169,38 @@ export default function Zahtevek() {
         onPress={handleSubmit}>
         <Text style={styles.buttonText}>Pošlji zahtevek</Text>
       </TouchableOpacity>
+
+      <Modal visible={odpriModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          <ScrollView contentContainerStyle={styles.modalContent}>
+            {loading && !odgovorPrejet ? (
+              <View style={[styles.container, styles.horizontal]}>
+                <Image
+                  source={require('../img/eZdravnik_logo.png')}
+                  style={styles.logo}
+                />
+                <ActivityIndicator size={100} />
+                <Text style={styles.loadingText}>
+                  <Typewriter
+                    typing={1}
+                    minDelay={30}
+                    maxDelay={40}
+                    style={styles.typewriterText}
+                  >
+                    eZdravnik generira odgovor...
+                  </Typewriter></Text>
+              </View>
+            ) : (
+              <Text style={styles.modalText}>{vsebinaModal}</Text>
+            )}
+            {odgovorPrejet && (
+              <TouchableOpacity style={styles.modalButtonZapri} onPress={() => setOdpriModal(false)}>
+                <Text style={styles.modalButtonText}>Zapri</Text>
+              </TouchableOpacity>
+            )}
+          </ScrollView>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -204,4 +273,58 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 20,
+    alignItems: 'center',
+    margin: 20
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: 'justify',
+    lineHeight: 25
+  },
+  modalButtonZapri: {
+    backgroundColor: '#18ada5',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 20
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  containerSpinner: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontalSpinner: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    marginBottom: 50
+  },
+  loadingText: {
+    fontSize: 20,
+    marginTop: 50,
+    marginBottom: 10,
+    textAlign: 'center',
+    lineHeight: 25
+  },
+  logo: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
+    justifyContent: 'center',
+  }
 });

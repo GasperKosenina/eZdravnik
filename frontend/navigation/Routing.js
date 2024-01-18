@@ -70,7 +70,7 @@ function Routing() {
             },
             tabBarActiveTintColor: '#18ada5',
             tabBarInactiveTintColor: 'grey',
-            tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
+            tabBarLabelStyle: { paddingBottom: 5, fontSize: 12 },
             tabBarStyle: {}
           })}
         >

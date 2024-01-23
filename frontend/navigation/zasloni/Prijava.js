@@ -1,13 +1,8 @@
-import React, { useState } from 'react'
-import { View, Text, KeyboardAvoidingView, TouchableOpacity, StyleSheet } from 'react-native'
-import { TextInput, Button, ActivityIndicator } from 'react-native-paper'
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../firebaseConfig'
-import { StyleSheet } from 'react-native'
-import { ActivityIndicator, TextInput } from 'react-native-paper'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Button } from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, KeyboardAvoidingView, TouchableOpacity, StyleSheet } from 'react-native';
+import { TextInput, Button, ActivityIndicator } from 'react-native-paper';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../firebaseConfig';
 import api from '../../services/api';
 
 

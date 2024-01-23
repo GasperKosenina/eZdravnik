@@ -17,8 +17,6 @@ export default function Profil({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require('../img/giraffe_pfp.png')} style={styles.profilePicture} />
-
-
       <Text style={styles.profileText}>@fakeime123</Text>
 
       <TouchableOpacity
@@ -28,11 +26,9 @@ export default function Profil({ navigation }) {
         <Text style={styles.buttonText}>Tvoja Zgodovina</Text>
       </TouchableOpacity>
 
-
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
         <Icon name="exit-outline" size={20} color="#ffffff" />
       </TouchableOpacity>
-
 
       <Modal
         animationType="slide"
@@ -73,6 +69,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: '#18ada5',
     marginBottom: 20,
+    borderWidth: 5, 
+    borderColor: '#18ada5', 
   },
   profileText: {
     fontSize: 27,
@@ -101,8 +99,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-
-  // MODALNO OKNO
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -120,14 +116,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalButtonCancel: {
-    backgroundColor: 'gray', // PREKLIC GUMB SIV
+    backgroundColor: 'gray',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
     marginBottom: 10,
   },
   modalButtonSignOut: {
-    backgroundColor: '#ff0000', // RDEČA BARVA GUMBA
+    backgroundColor: '#ff0000',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,

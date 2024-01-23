@@ -34,7 +34,7 @@ export const pridobiUporabnikId = async (req: Request, res: Response): Promise<v
 
 export const dodajUporabnika = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { email, uid, display_name } = req.body; 
+        const { email, uid} = req.body; 
 
         if (!email || !uid) {
             res.status(400).json({ message: 'Manjkajo obvezni podatki (email ali uid)' });
@@ -49,7 +49,7 @@ export const dodajUporabnika = async (req: Request, res: Response): Promise<void
             return;
         }
 
-        await uporabnikRef.set({ email, uid, display_name });
+        await uporabnikRef.set({ email, uid});
 
         res.status(201).json({ message: 'Uporabnik uspešno dodan' });
     } catch (error) {

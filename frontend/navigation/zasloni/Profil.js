@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Dodajte želeno ikono
+import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 export default function Profil({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,6 +47,7 @@ export default function Profil({ navigation }) {
               <Text style={styles.modalButtonText}>Prekliči</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalButtonSignOut} onPress={() => {
+              FIREBASE_AUTH.signOut();
               closeModal();
             }}>
               <Text style={styles.modalButtonText}>Odjavi se</Text>

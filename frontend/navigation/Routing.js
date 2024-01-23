@@ -12,6 +12,8 @@ import Zahtevek from './zasloni/Zahtevek';
 import Zemljevid from './zasloni/Zemljevid';
 import Zgodovina from './zasloni/Zgodovina';
 
+
+
 const CustomScreenTitle = () => {
   return (
     <Text style={{ fontSize: 17, fontWeight: '600' }}>
@@ -27,26 +29,6 @@ const Tab = createBottomTabNavigator();
 
 
 function Routing() {
-  const [odgovori, setOdgovori] = useState([]);
-
-
-  useEffect(() => {
-    pridobiOdgovore();
-  }, []);
-
-  const pridobiOdgovore = async () => {
-    try {
-      const response = await api.get('/odgovori/vse/oFVBroH4zRZeYvrFk328nvclJhg2');
-      //console.log(response.data.odgovor_zahtevek)
-      setOdgovori(response.data.odgovor_zahtevek);
-    } catch (error) {
-      console.error('Napaka pri pridobivanju podatkov:', error);
-    }
-  };
-
-
-
-
   return (
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
@@ -80,7 +62,7 @@ function Routing() {
             options={{ headerTitle: () => <CustomScreenTitle /> }}
           />
           <Tab.Screen name="Zahtevek" component={Zahtevek} />
-          <Tab.Screen name="Zgodovina">{() => <Zgodovina odgovori={odgovori} />}</Tab.Screen>
+          <Tab.Screen name="Zgodovina">{() => <Zgodovina />}</Tab.Screen>
           <Tab.Screen name="Prva pomoč" component={Zemljevid} />
           <Tab.Screen name="Profil" component={Profil} />
         </Tab.Navigator>

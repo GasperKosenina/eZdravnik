@@ -21,27 +21,15 @@ const posiljanjeBesedilaChatGPT = async (besedilo: string): Promise<string> => {
 
 const options = {
   method: 'POST',
-  url: 'https://chatgpt-42.p.rapidapi.com/conversationgpt4',
+  url: 'https://chatgpt-gpt5.p.rapidapi.com/ask',
   headers: {
     'content-type': 'application/json',
     'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-    'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
+    'X-RapidAPI-Host': 'chatgpt-gpt5.p.rapidapi.com'
   },
-  body: {
-    messages: [
-      {
-        role: 'user',
-        content: besedilo
-      }
-    ],
-    system_prompt: '',
-    temperature: 0.5,
-    top_k: 50,
-    top_p: 0.9,
-    max_tokens: 1000,
-    web_access: false
-  },
-  json: true
+  data: {
+    query: besedilo
+  }
 };
 
 return new Promise<string>((resolve, reject) => {

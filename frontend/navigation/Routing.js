@@ -61,8 +61,8 @@ function Routing() {
                 iconName = focused ? 'pencil' : 'pencil-outline';
               } else if (route.name === "Zgodovina") {
                 iconName = focused ? 'list' : 'list-outline';
-              } else if (route.name === "Zemljevid") {
-                iconName = focused ? 'map' : 'map-outline';
+              } else if (route.name === "Prva pomoč") {
+                iconName = focused ? 'medkit' : 'medkit-outline';
               } else if (route.name === "Profil") {
                 iconName = focused ? 'person' : 'person-outline';
               }

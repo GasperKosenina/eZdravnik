@@ -15,7 +15,7 @@ export default function Zgodovina() {
 
     useEffect(() => {
         pridobiOdgovore();
-    }, []);
+    }, [odgovori]);
 
     const pridobiOdgovore = async () => {
         try {

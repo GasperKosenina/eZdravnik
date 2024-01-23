@@ -36,9 +36,9 @@ function Routing() {
 
   const pridobiOdgovore = async () => {
     try {
-      const response = await api.get('/odgovori');
-      //console.log(response.data)
-      setOdgovori(response.data.odgovori);
+      const response = await api.get('/odgovori/vse/oFVBroH4zRZeYvrFk328nvclJhg2');
+      //console.log(response.data.odgovor_zahtevek)
+      setOdgovori(response.data.odgovor_zahtevek);
     } catch (error) {
       console.error('Napaka pri pridobivanju podatkov:', error);
     }

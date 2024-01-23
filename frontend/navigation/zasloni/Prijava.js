@@ -3,6 +3,13 @@ import { View, Text, KeyboardAvoidingView, TouchableOpacity, StyleSheet } from '
 import { TextInput, Button, ActivityIndicator } from 'react-native-paper'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH } from '../../firebaseConfig'
+import { StyleSheet } from 'react-native'
+import { ActivityIndicator, TextInput } from 'react-native-paper'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { Button } from 'react-native'
+import api from '../../services/api';
+
 
 const Prijava = () => {
     const [email, setEmail] = useState('')
@@ -27,6 +34,12 @@ const Prijava = () => {
         setLoading(true)
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password)
+            const user = {
+                email: response.user.email,
+                uid: response.user.uid
+            }
+            console.log(user)
+            await api.post('/uporabniki', body = user)
         } catch (error) {
             console.log(error)
             alert('Registracija ni uspela!')

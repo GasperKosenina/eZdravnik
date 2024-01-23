@@ -1,20 +1,30 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useEffect } from 'react';
+import { Card } from 'react-native-paper';
 
 export default function Zgodovina({ odgovori }) {
-    //console.log(odgovori)
     useEffect(() => {
+        return () => { };
     }, [odgovori]);
 
-
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <View style={{ marginTop: 20 }}>
-                {odgovori.map((odgovor, index) => (
-                    <Text key={index}>{odgovor.id}</Text>
-                ))}
-            </View>
-        </View>
+        <ScrollView>
+            {odgovori.map((par, index) => (
+                <Card key={index} style={styles.card}>
+                    <Text>{`Zahtevek: ${par.zahtevek.opis_simptomov}`}</Text>
+                    <Text>{`Odgovor: ${par.odgovor.odgovor}`}</Text>
+                </Card>
+            ))}
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    card: {
+        margin: 10,
+        padding: 15,
+        borderRadius: 10,
+        backgroundColor: '#ffffff',
+    },
+});

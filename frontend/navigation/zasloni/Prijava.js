@@ -6,6 +6,7 @@ import { ActivityIndicator, TextInput } from 'react-native-paper'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { Button } from 'react-native'
+import api from '../../services/api';
 
 
 const Prijava = () => {
@@ -32,8 +33,12 @@ const Prijava = () => {
         setLoading(true)
         try{
             const response = await createUserWithEmailAndPassword(auth, email, password)
-            console.log(response)
-            alert('Uspešno ste se registrirali!')
+            const user = {
+                email: response.user.email,
+                uid: response.user.uid
+            }
+            console.log(user)
+            await api.post('/uporabniki', body = user)
         } catch (error) {
             console.log(error)
             alert('Registracija ni uspela!')

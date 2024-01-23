@@ -5,6 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import Typewriter from 'react-native-typewriter';
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { getAuth } from 'firebase/auth';
 
 export default function Zahtevek() {
   const [datumRojstva, setDatumRojstva] = React.useState(new Date());
@@ -21,7 +22,8 @@ export default function Zahtevek() {
   const [vsebinaModal, setVsebinaModal] = useState('');
   const [loading, setLoading] = useState(false);
   const [odgovorPrejet, setOdgovorPrejet] = useState(false);
-
+  const user = getAuth()
+  const userId = user.currentUser.uid
 
 
   const onChange = (event, selectedDate) => {
@@ -64,8 +66,8 @@ export default function Zahtevek() {
       setOdgovorPrejet(false);
       setLoading(true);
       setOdpriModal(true);
-
-      const response = await api.post('/chatGPT/BXbIWZVGKheN11QV5AwD0MF7f1z1', data);
+      console.log(userId);
+      const response = await api.post(`/chatGPT/${userId}`, data);
       console.log(response.data.odgovor.odgovor);
       const odgovorIzpis = response.data.odgovor.odgovor;
 

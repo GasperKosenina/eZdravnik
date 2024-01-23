@@ -3,6 +3,7 @@ import request from 'request';
 import Zahtevek from '../models/zahtevek';
 import Odgovor from '../models/odgovor';
 import admin from '../config/firebaseConfig';
+import { isConstructorDeclaration } from 'typescript';
 
 const firestore = admin.firestore();
 
@@ -17,54 +18,37 @@ const pretvoriZahtevekVBesedilo = (zahtevek: Zahtevek): string => {
 
 }
 
-const posiljanjeBesedilaChatGPT = async (besedilo: string): Promise<string> => {
+const axios = require('axios');
 
-const options = {
-  method: 'POST',
-  url: 'https://chatgpt-42.p.rapidapi.com/conversationgpt4',
-  headers: {
-    'content-type': 'application/json',
-    'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-    'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
-  },
-  body: {
-    messages: [
-      {
-        role: 'user',
-        content: besedilo
-      }
-    ],
-    system_prompt: '',
-    temperature: 0.5,
-    top_k: 50,
-    top_p: 0.9,
-    max_tokens: 1000,
-    web_access: false
-  },
-  json: true
-};
-
-return new Promise<string>((resolve, reject) => {
-    const makeRequest = () => {
-        request(options, (error, response, body) => {
-            if (error) {
-                reject(error);
-            } else {
-                const result = body?.result;
-
-                if (result && result.trim() !== '') {
-                    resolve(result);
-                } else {
-                    setTimeout(makeRequest, 1000);
-                }
-            }
-        });
+const posiljanjeBesedilaChatGPT = async (besedilo: string) => {
+    const options = {
+        method: 'POST',
+        url: 'https://chatgpt-42.p.rapidapi.com/conversationgpt4',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '4d0a972f6emsh586274597eed873p1ad7e2jsn2640874e1327',
+            'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
+        },
+        data: JSON.stringify({
+            messages: [{ role: 'user', content: besedilo }],
+            system_prompt: '',
+            temperature: 0.9,
+            top_k: 5,
+            top_p: 0.9,
+            max_tokens: 1000,
+            web_access: false
+        })
     };
 
-    makeRequest();
-});
+    try {
+        const response = await axios(options);
+        return response.data.result; // adjust based on the actual structure of the response
+    } catch (error) {
+        console.error('Error while sending text to ChatGPT:', error);
+        throw error;
+    }
+};
 
-}
 
 export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -89,7 +73,6 @@ export const dodajZahtevekInOdgovorPodUporabnika = async (req: Request, res: Res
         const pretvorjenoBesedilo = pretvoriZahtevekVBesedilo(zahtevek);
 
         const besediloOdgovora: string = await posiljanjeBesedilaChatGPT(pretvorjenoBesedilo);
-
         if (!besediloOdgovora) {
             res.status(500).json({ error: "Prislo je do napake" });
             return;

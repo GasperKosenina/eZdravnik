@@ -28,7 +28,7 @@ export default function Zahtevek() {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || datumRojstva;
-    setShowDatePicker(Platform.OS === 'ios'); // Keep the date picker open on iOS
+    setShowDatePicker(Platform.OS === 'ios'); 
     setDatumRojstva(currentDate);
   };
 
@@ -181,7 +181,7 @@ export default function Zahtevek() {
                   source={require('../img/eZdravnik_logo.png')}
                   style={styles.logo}
                 />
-                <ActivityIndicator size={100} />
+                <ActivityIndicator size={160} style={styles.spinner} />
                 <Text style={styles.loadingText}>
                   <Typewriter
                     typing={1}
@@ -189,7 +189,7 @@ export default function Zahtevek() {
                     maxDelay={40}
                     style={styles.typewriterText}
                   >
-                    eZdravnik generira odgovor...
+                   <Text style={{ color: '#18ada5' }}>e</Text>Zdravnik generira odgovor...
                   </Typewriter></Text>
               </View>
             ) : (
@@ -208,6 +208,11 @@ export default function Zahtevek() {
 }
 
 const styles = StyleSheet.create({
+
+  spinner: {
+    marginTop: -203, 
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -313,19 +318,21 @@ const styles = StyleSheet.create({
   horizontalSpinner: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10,
+    padding: 5,
     marginBottom: 50
   },
   loadingText: {
     fontSize: 20,
-    marginTop: 50,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 5,
     textAlign: 'center',
     lineHeight: 25
   },
   logo: {
-    width: 300,
-    height: 300,
+    marginTop: -30,
+    width: 220,
+    height: 220,
+    alignSelf: 'center',
     resizeMode: 'contain',
     justifyContent: 'center',
   }

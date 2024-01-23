@@ -63,7 +63,7 @@ function Routing() {
           />
           <Tab.Screen name="Zahtevek" component={Zahtevek} />
           <Tab.Screen name="Zgodovina">{() => <Zgodovina />}</Tab.Screen>
-          <Tab.Screen name="Zemljevid" component={Zemljevid} />
+          <Tab.Screen name="Prva pomoč" component={Zemljevid} />
           <Tab.Screen name="Profil" component={Profil} />
         </Tab.Navigator>
       </SafeAreaView>

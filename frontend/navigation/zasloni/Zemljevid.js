@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableHighlight, StyleSheet, Modal } from 'react-native';
 
 //BOLNICE
 const initialBolnice = [
@@ -27,156 +27,161 @@ const initialBolnice = [
     { id: 22, ime: 'Zdravstveni dom Ptuj', naslov: 'Potrčeva cesta 19a, 2250 Ptuj', telefon: '02 749 31 00', faks: '02 749 31 10', spletnaStran: 'www.zd-ptuj.si' }
   ];
 
-export default function Zemljevid() {
-  const [bolnice, setBolnice] = useState(initialBolnice);
-  const [searchText, setSearchText] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedBolnica, setSelectedBolnica] = useState(null);
-
-  const handleSearch = (text) => {
-    setSearchText(text);
-    const filteredBolnice = initialBolnice.filter((bolnica) =>
-      bolnica.ime.toLowerCase().includes(text.toLowerCase())
-    );
-    setBolnice(filteredBolnice);
-  };
-
-  const showBolnicaDetails = (bolnica) => {
-    setSelectedBolnica(bolnica);
-    setModalVisible(true);
-  };
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => showBolnicaDetails(item)}>
-      <View style={styles.bolnicaContainer}>
-        <Text style={styles.bolnicaIme}>{item.ime}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Iskanje bolnic po imenu"
-        value={searchText}
-        onChangeText={handleSearch}
-      />
-      <FlatList
-        data={bolnice}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>{selectedBolnica?.ime}</Text>
-            <Text style={styles.modalText}>Naslov: {selectedBolnica?.naslov}</Text>
-            <Text style={styles.modalText}>Telefon: {selectedBolnica?.telefon}</Text>
-            <Text style={styles.modalText}>Faks: {selectedBolnica?.faks}</Text>
-            <Text style={styles.modalText}>Spletna stran: {selectedBolnica?.spletnaStran}</Text>
-
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Zapri</Text>
-            </TouchableOpacity>
+  export default function Zemljevid() {
+    const [bolnice, setBolnice] = useState(initialBolnice);
+    const [searchText, setSearchText] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedBolnica, setSelectedBolnica] = useState(null);
+  
+    const handleSearch = (text) => {
+      setSearchText(text);
+      const filteredBolnice = initialBolnice.filter((bolnica) =>
+        bolnica.ime.toLowerCase().includes(text.toLowerCase())
+      );
+      setBolnice(filteredBolnice);
+    };
+  
+    const showBolnicaDetails = (bolnica) => {
+      setSelectedBolnica(bolnica);
+      setModalVisible(true);
+    };
+  
+    const renderItem = ({ item }) => {
+      return (
+        <TouchableHighlight
+          underlayColor="#18ada5"
+          onPress={() => showBolnicaDetails(item)}
+          style={styles.bolnicaContainer}
+        >
+          <Text style={styles.bolnicaIme}>{item.ime}</Text>
+        </TouchableHighlight>
+      );
+    };
+  
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Iskanje bolnic po imenu"
+          value={searchText}
+          onChangeText={handleSearch}
+        />
+        <FlatList
+          data={bolnice}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTitle}>{selectedBolnica?.ime}</Text>
+              <Text style={styles.modalText}>Naslov: {selectedBolnica?.naslov}</Text>
+              <Text style={styles.modalText}>Telefon: {selectedBolnica?.telefon}</Text>
+              <Text style={styles.modalText}>Faks: {selectedBolnica?.faks}</Text>
+              <Text style={styles.modalText}>Spletna stran: {selectedBolnica?.spletnaStran}</Text>
+  
+              <TouchableHighlight
+                style={[styles.button, styles.buttonClose]}
+                underlayColor="#17b292"
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.textStyle}>Zapri</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: 'white',
-  },
-  searchInput: {
-    borderWidth: 1,
-    borderRadius: 3,
-    padding: 10,
-    width: '100%',
-    marginBottom: 20,
-    marginTop: 10, 
-  },
-  bolnicaContainer: {
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: '#ccc',
-    padding: 10,
-    width: '100%',
-    marginBottom: 10,
-    backgroundColor: 'white',
-  },
-  bolnicaIme: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 35,
-    width: '80%', // MODALNO OKNO ŠIRINA --> ALERT BOX
-    height: '55%', // MODALNO OKNO VIŠINA --> ALERT BOX
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
+        </Modal>
+      </View>
+    );
+  }
+  
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 20,
+      backgroundColor: 'white',
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  modalTitle: {
-    marginBottom: 15,
-    color: '#18ada5',
-    textAlign: "center",
-    marginBottom: 30,
-    fontSize: 21,
-    fontWeight: 'bold'
-  },
-  modalText: {
-    marginBottom: 15,
-    fontSize: 15,
-    textAlign: "center"
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  buttonClose: {
-    backgroundColor: "#18ada5",
-    borderRadius: 10,
-    paddingVertical: 10,  
-    paddingHorizontal: 60,  
-    elevation: 2,
-    marginTop: 15,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 18, 
-  },
-});
-
+    searchInput: {
+      borderWidth: 1,
+      borderRadius: 3,
+      padding: 10,
+      width: '100%',
+      marginBottom: 20,
+      marginTop: 10, 
+    },
+    bolnicaContainer: {
+      borderWidth: 1,
+      borderRadius: 10,
+      borderColor: '#ccc',
+      padding: 10,
+      width: '100%',
+      marginBottom: 10,
+      backgroundColor: 'white',
+    },
+    bolnicaIme: {
+      fontSize: 17,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 15,
+      padding: 35,
+      width: '80%', 
+      height: '55%',
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    modalTitle: {
+      marginBottom: 15,
+      color: '#18ada5',
+      textAlign: "center",
+      marginBottom: 30,
+      fontSize: 21,
+      fontWeight: 'bold'
+    },
+    modalText: {
+      marginBottom: 15,
+      fontSize: 15,
+      textAlign: "center"
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2
+    },
+    buttonClose: {
+      backgroundColor: "#18ada5",
+      borderRadius: 10,
+      paddingVertical: 10,  
+      paddingHorizontal: 60,  
+      elevation: 2,
+      marginTop: 15,
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+      fontSize: 18, 
+    },
+  });

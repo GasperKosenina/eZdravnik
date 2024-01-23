@@ -5,7 +5,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 import api from '../../services/api';
 
-
 const Prijava = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

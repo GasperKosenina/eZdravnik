@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Dodajte želeno ikono
 import { FIREBASE_AUTH } from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
+
 
 export default function Profil({ navigation }) {
+  const user = getAuth()
+  userEmail = user.currentUser.email
+
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSignOut = () => {
@@ -19,7 +25,7 @@ export default function Profil({ navigation }) {
       <Image source={require('../img/giraffe_pfp.png')} style={styles.profilePicture} />
 
 
-      <Text style={styles.profileText}>@fakeime123</Text>
+      <Text style={styles.profileText}>{userEmail}</Text>
 
       <TouchableOpacity
         style={styles.button}

@@ -43,7 +43,7 @@ export default function Domov({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('Zahtevek')}
       >
-        <Text style={styles.buttonText}>Pošli svoj prvi zahtevek</Text>
+        <Text style={styles.buttonText}>Začnite zdaj</Text>
       </Pressable>
     </View>
   );

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
 import Typewriter from 'react-native-typewriter';
-
+import { useState, useEffect } from 'react';
 export default function Domov({ navigation }) {
   const [showSecondSentence, setShowSecondSentence] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
       setShowSecondSentence(true);
-    }, 4300); // MILISEKUNDE ZAMIKA
+    }, 3300); // MILISEKUNDE ZAMIKA
 
     return () => clearTimeout(timer); // OČISTI TIMER
   }, []);
@@ -16,15 +16,15 @@ export default function Domov({ navigation }) {
   return (
     <View style={styles.container}>
 
-        <Image
+      <Image
         source={require('../img/eZdravnik_logo.png')}
         style={styles.logo}
-        />
+      />
 
       <Typewriter
         typing={1}
-        minDelay={30}
-        maxDelay={60}
+        minDelay={20}
+        maxDelay={30}
         style={styles.typewriterText}
       >
         Pozdravljeni v eZdravniku, vašem digitalnem svetovalcu za zdravje.
@@ -32,19 +32,19 @@ export default function Domov({ navigation }) {
       {showSecondSentence && (
         <Typewriter
           typing={1}
-          minDelay={75}
-          maxDelay={105}
+          minDelay={20}
+          maxDelay={30}
           style={styles.typewriterText}
         >
-          Tu smo, da vam pomagamo hitro in zanesljivo.
+          Tu sem, da vam pomagam hitro in zanesljivo.
         </Typewriter>
       )}
-      <TouchableOpacity
+      <Pressable
         style={styles.button}
         onPress={() => navigation.navigate('Zahtevek')}
       >
-        <Text style={styles.buttonText}>Sprobajte vaš prvi zahtevek</Text>
-      </TouchableOpacity>
+        <Text style={styles.buttonText}>Začnite zdaj</Text>
+      </Pressable>
     </View>
   );
 }
@@ -58,31 +58,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF', // BELO OZADJE
   },
   logo: {
-    width: 300, 
-    height: 300, 
+    width: 350, 
+    height: 350, 
     resizeMode: 'contain',
-    marginBottom: 10, 
+    marginBottom: -40, 
   },
   typewriterText: {
-    fontSize: 18, 
+    fontSize: 18,
     textAlign: 'center',
     paddingHorizontal: 10, 
-    marginBottom: 20, 
+    marginBottom: 15, 
   },
   button: {
-    backgroundColor: '#18ada5', // MODRA BARVA GUMBA
+    backgroundColor: '#18ada5', // TURKIZNA BARVA GUMBA
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignSelf: 'center',
-    width: '80%', 
+    width: '80%',
     marginTop: 20,
-    marginBottom: 50, 
+    marginBottom: 50,
   },
   buttonText: {
-    color: '#ffffff', 
+    color: '#ffffff',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 16, 
+    fontSize: 16,
   },
 });

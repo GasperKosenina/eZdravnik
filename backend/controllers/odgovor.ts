@@ -161,6 +161,44 @@ export const pridobiOdgovoreInZahtevkeUporabnika = async (req: Request, res: Res
 };
 
 
+export const pridobiOdgovoreUporabnika = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { uporabnikID } = req.params;
+
+        if (!uporabnikID) {
+            res.status(400).json({ error: 'Missing uporabnikID parameter' });
+            return;
+        }
+
+        const odgovoriCollection = firestore.collection('odgovori');
+        const odgovoriSnapshot = await odgovoriCollection.where('uporabnikID', '==', uporabnikID).get();
+
+        if (odgovoriSnapshot.empty) {
+            res.status(404).json({ error: 'No responses found for the specified user' });
+            return;
+        }
+
+        const odgovori: Odgovor[] = [];
+
+        odgovoriSnapshot.forEach((doc) => {
+            const data = doc.data();
+            const odgovor: Odgovor = {
+                id: doc.id,
+                odgovor: data.odgovor || '',
+                zahtevekID: data.zahtevekID || '',
+                uporabnikID: data.uporabnikID || ''
+            };
+            odgovori.push(odgovor);
+        });
+
+        res.status(200).json({ odgovori });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
 
 
 

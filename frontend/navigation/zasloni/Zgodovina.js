@@ -5,7 +5,7 @@ import { Card } from 'react-native-paper';
 import api from '../../services/api';
 import { getAuth } from 'firebase/auth';
 
-export default function Zgodovina() {
+export default function Zgodovina({ seznam }) {
     const user = getAuth()
     const userId = user.currentUser.uid
 
@@ -13,21 +13,21 @@ export default function Zgodovina() {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
 
-    useEffect(() => {
-        pridobiOdgovore();
-    }, [odgovori]);
-
-    const pridobiOdgovore = async () => {
-        try {
-            const response = await api.get(`/odgovori/vse/${userId}`);
-            setOdgovori(response.data.odgovor_zahtevek);
-        } catch (error) {
-            console.error('Napaka pri pridobivanju podatkov:', error);
-        }
-    };
+    /*     useEffect(() => {
+            pridobiOdgovore();
+        }, []);
+    
+        const pridobiOdgovore = async () => {
+            try {
+                const response = await api.get(`/odgovori/vse/${userId}`);
+                setOdgovori(response.data.odgovor_zahtevek);
+            } catch (error) {
+                console.error('Napaka pri pridobivanju podatkov:', error);
+            }
+        }; */
 
     const showAnswer = (index) => {
-        setSelectedAnswer(odgovori[index].odgovor.odgovor);
+        setSelectedAnswer(seznam[index].odgovor.odgovor);
         setModalVisible(true);
     };
 
@@ -36,9 +36,14 @@ export default function Zgodovina() {
         setModalVisible(false);
     };
 
+
+
+    console.log(seznam)
+
+
     return (
         <ScrollView>
-            {odgovori.map((par, index) => (
+            {seznam.map((par, index) => (
                 <Card key={par.zahtevek.id} style={styles.card} onPress={() => showAnswer(index)}>
                     <Text>{`${par.zahtevek.opis_simptomov}`}</Text>
                 </Card>

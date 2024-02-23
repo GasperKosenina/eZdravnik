@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { getAuth } from 'firebase/auth';
 
-export default function Zahtevek() {
+export default function Zahtevek({ dodaj }) {
   const [datumRojstva, setDatumRojstva] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [spol, setSpol] = React.useState('Moški');
@@ -28,7 +28,7 @@ export default function Zahtevek() {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || datumRojstva;
-    setShowDatePicker(Platform.OS === 'ios'); 
+    setShowDatePicker(Platform.OS === 'ios');
     setDatumRojstva(currentDate);
   };
 
@@ -66,12 +66,13 @@ export default function Zahtevek() {
       setOdgovorPrejet(false);
       setLoading(true);
       setOdpriModal(true);
-      console.log(userId);
-      const response = await api.post(`/chatGPT/${userId}`, data);
-      console.log(response.data.odgovor.odgovor);
-      const odgovorIzpis = response.data.odgovor.odgovor;
+      //console.log(userId);
 
+      const response = await api.post(`/chatGPT/${userId}`, data);
+      //console.log(response.data.odgovor.odgovor);
+      const odgovorIzpis = response.data.odgovor.odgovor;
       setVsebinaModal(odgovorIzpis);
+      dodaj();
       setOdgovorPrejet(true);
     } catch (error) {
       console.error('Napaka:', error);
@@ -189,7 +190,7 @@ export default function Zahtevek() {
                     maxDelay={40}
                     style={styles.typewriterText}
                   >
-                   <Text style={{ color: '#18ada5' }}>e</Text>Zdravnik generira odgovor...
+                    <Text style={{ color: '#18ada5' }}>e</Text>Zdravnik generira odgovor...
                   </Typewriter></Text>
               </View>
             ) : (
@@ -210,7 +211,7 @@ export default function Zahtevek() {
 const styles = StyleSheet.create({
 
   spinner: {
-    marginTop: -203, 
+    marginTop: -203,
   },
 
   container: {

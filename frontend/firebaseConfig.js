@@ -2,13 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDwWGW7tkcdEofB7aBjos3GhiyVNXotWCI",
-  authDomain: "ezdravnik-ed763.firebaseapp.com",
-  projectId: "ezdravnik-ed763",
-  storageBucket: "ezdravnik-ed763.appspot.com",
-  messagingSenderId: "771795984741",
-  appId: "1:771795984741:web:d54209f755c50f4c1bc18c",
-  measurementId: "G-64S5Q7SE88"
+  apiKey: "AIzaSyDSEP8jmhBCjaQC9ZR59cUU3jk5hVdlPe8",
+  authDomain: "ezdravnik2.firebaseapp.com",
+  projectId: "ezdravnik2",
+  storageBucket: "ezdravnik2.appspot.com",
+  messagingSenderId: "203434138711",
+  appId: "1:203434138711:web:1b984a7d368adc481e9712"
 };
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);

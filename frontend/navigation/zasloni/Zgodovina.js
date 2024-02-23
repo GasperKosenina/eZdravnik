@@ -31,11 +31,6 @@ export default function Zgodovina({ seznam }) {
         setModalVisible(false);
     };
 
-
-
-    console.log(seznam)
-
-
     return (
         <ScrollView>
             {seznam.map((par, index) => (

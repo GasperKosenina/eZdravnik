@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { getAuth } from 'firebase/auth';
 
 import Domov from './zasloni/Domov';
 import Profil from './zasloni/Profil';
@@ -29,6 +30,40 @@ const Tab = createBottomTabNavigator();
 
 
 function Routing() {
+  const user = getAuth();
+  const userId = user.currentUser.uid;
+
+  const [seznam, setSeznam] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`/odgovori/vse/${userId}`);
+        setSeznam(response.data.odgovor_zahtevek);
+      } catch (error) {
+        console.error("Napaka pri pridobivanju podatkov", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/odgovori/vse/${userId}`);
+      setSeznam(response.data.odgovor_zahtevek);
+    } catch (error) {
+      console.error("Napaka pri pridobivanju podatkov", error);
+    }
+  };
+
+  const handleAdd = () => {
+    fetchData();
+  }
+
+
+
+
   return (
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
@@ -61,8 +96,8 @@ function Routing() {
             component={Domov}
             options={{ headerTitle: () => <CustomScreenTitle /> }}
           />
-          <Tab.Screen name="Zahtevek" component={Zahtevek} />
-          <Tab.Screen name="Zgodovina">{() => <Zgodovina />}</Tab.Screen>
+          <Tab.Screen name="Zahtevek">{() => <Zahtevek dodaj={handleAdd} />}</Tab.Screen>
+          <Tab.Screen name="Zgodovina">{() => <Zgodovina seznam={seznam} />}</Tab.Screen>
           <Tab.Screen name="Prva pomoč" component={Zemljevid} />
           <Tab.Screen name="Profil" component={Profil} />
         </Tab.Navigator>

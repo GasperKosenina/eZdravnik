@@ -22,7 +22,7 @@ export default function Zgodovina() {
 
   useEffect(() => {
     pridobiOdgovore();
-  }, [userId]);
+  }, []);
 
   const pridobiOdgovore = async () => {
     try {

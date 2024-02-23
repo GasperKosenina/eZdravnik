@@ -17,7 +17,7 @@ export default function Domov({ navigation }) {
     <View style={styles.container}>
 
       <Image
-        source={require('../img/eZdravnik_logo.png')}
+        source={require('../img/eZdravnik_logo_1.jpg')}
         style={styles.logo}
       />
 
@@ -58,10 +58,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF', // BELO OZADJE
   },
   logo: {
-    width: 350, 
-    height: 350, 
+    width: 200, 
+    height: 200, 
     resizeMode: 'contain',
-    marginBottom: -40, 
+    marginBottom: 35, 
   },
   typewriterText: {
     fontSize: 18,

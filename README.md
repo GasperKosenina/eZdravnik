@@ -1,6 +1,6 @@
 # eZdravnik
 
-eZdravnik is an innovative AI doctor that responds to users' health questions. With advanced NLP algorithms and a reliable knowledge base, it provides accurate answers. The interface is simple, answers are tailored, and data is secure. Join us in creating a more accessible health advisor!
+eZdravnik is an innovative AI doctor that responds to users' health questions.
 
 ## Installation
 
